@@ -15,7 +15,7 @@ import { useFonts } from "expo-font";
 import portfolioReducer from "./store/reducers/Portfolio";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "./colors";
-
+//commented
 export default function App() {
   const rootReducer = combineReducers({
     auth: authReducer,
