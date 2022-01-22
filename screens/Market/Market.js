@@ -17,20 +17,26 @@ class Market extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    // if (prevProps.cseInfo !== this.props.cseInfo) {
+    // if (this.props.cseInfo.status === 200) {
+    // if (prevProps.cseInfo.data !== this.props.cseInfo.data) {
     //   this.setState({
-    //     newCseInfo: this.props.cseInfo,
+    //     newCseInfo: this.props.cseInfo.data,
     //     chartData: [
-    //       { x: 1, y: parseInt(this.props.cseInfo.up), label: " " },
-    //       { x: 2, y: parseInt(this.props.cseInfo.down), label: " " },
-    //       { x: 3, y: parseInt(this.props.cseInfo.unchanged), label: " " },
+    //       { x: 1, y: parseInt(this.props.cseInfo.data.up), label: " " },
+    //       { x: 2, y: parseInt(this.props.cseInfo.data.down), label: " " },
+    //       { x: 3, y: parseInt(this.props.cseInfo.data.unchanged), label: " " },
     //     ],
     //   });
     // }
-    if (prevProps.total !== this.props.total) {
-      this.setState({
-        newTotal: this.props.total,
-      });
+    // }
+    if (this.props.total.status === 200) {
+      if (prevProps.total.data !== this.props.total.data) {
+        this.setState({
+          newTotal: this.props.total.data,
+        });
+      }
+    } else {
+      //todo:
     }
   }
 

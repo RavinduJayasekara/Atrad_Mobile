@@ -199,10 +199,14 @@ class Indices extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.indices !== this.props.indices) {
-      this.setState({
-        newIndices: this.props.indices,
-      });
+    if (this.props.indices.status === 200) {
+      if (prevProps.indices.data !== this.props.indices.data) {
+        this.setState({
+          newIndices: this.props.indices.data,
+        });
+      }
+    } else {
+      //todo:
     }
   }
 

@@ -175,26 +175,30 @@ class Trades extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.trades !== this.props.trades) {
-      let i = 0;
-      if (this.props.trades && this.props.trades.length > 0) {
-        const arr = this.props.trades.map((item) => {
-          i = i + 1;
-          return {
-            id: i.toString(),
-            security: item.security,
-            companyname: item.companyname,
-            netchange: item.netchange,
-            perchange: item.perchange,
-            highpx: item.highpx,
-            lowpx: item.lowpx,
-            totalturnover: item.totalturnover,
-            totalvolume: item.totalvolume,
-          };
-        });
-        this.setState({
-          newTrades: arr,
-        });
+    if (this.props.trades.status === 200) {
+      if (prevProps.trades.data !== this.props.trades.data) {
+        let i = 0;
+        if (this.props.trades && this.props.trades.data.length > 0) {
+          const arr = this.props.trades.data.map((item) => {
+            i = i + 1;
+            return {
+              id: i.toString(),
+              security: item.security,
+              companyname: item.companyname,
+              netchange: item.netchange,
+              perchange: item.perchange,
+              highpx: item.highpx,
+              lowpx: item.lowpx,
+              totalturnover: item.totalturnover,
+              totalvolume: item.totalvolume,
+            };
+          });
+          this.setState({
+            newTrades: arr,
+          });
+        }
+      } else {
+        // todo:
       }
     }
   }

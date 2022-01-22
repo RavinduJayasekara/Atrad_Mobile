@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import colors from "../../colors";
+import addCommas from "../RequestBody/AddCommas";
 
 const { height } = Dimensions.get("window");
 export default class TradesTile extends PureComponent {
@@ -14,11 +15,11 @@ export default class TradesTile extends PureComponent {
     } else if (perChangeVal === 0) {
       fColor = colors.greyTitle;
     }
-    if (turnOver.length > 11) {
-      const arr = turnOver.split(",");
-      arr.splice(arr.length - 2, 2);
-      turnOver = arr.toString() + "M";
-    }
+    // if (turnOver.length > 11) {
+    //   const arr = turnOver.split(",");
+    //   arr.splice(arr.length - 2, 2);
+    //   turnOver = arr.toString() + "M";
+    // }
     return (
       <View
         style={{
@@ -118,13 +119,13 @@ export default class TradesTile extends PureComponent {
                 }}
               >
                 <Text style={styles.infoTitle}>
-                  {this.props.item.totalvolume}
+                  {addCommas(this.props.item.totalvolume)}
                 </Text>
               </View>
               <View
                 style={{ width: "100%", height: "50%", alignItems: "flex-end" }}
               >
-                <Text style={styles.inforDetails}>{turnOver}</Text>
+                <Text style={styles.inforDetails}>{addCommas(turnOver)}</Text>
               </View>
             </View>
             <View

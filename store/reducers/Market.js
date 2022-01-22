@@ -15,12 +15,13 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_INDICES:
-      const indices = action.indices;
-      if (indices.length !== 0) {
-        return { ...state, indices: indices };
-      } else {
-        return state;
-      }
+      // const indices = action.indices;
+      // if (indices.length !== 0) {
+      //   return { ...state, indices: indices };
+      // } else {
+      //   return state;
+      // }
+      return { ...state, indices: action.indices };
     case GET_TRADES:
       const trades = action.trades;
       console.log("trades", trades);
