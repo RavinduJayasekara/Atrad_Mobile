@@ -129,13 +129,17 @@ class AccountSummary extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.clients !== this.props.clients) {
-      if (this.props.clients.length !== 0) {
-        this.clientHandler(this.props.clients[0]);
+    if (this.props.clients.status === 200) {
+      if (prevProps.clients.data !== this.props.clients.data) {
+        if (this.props.clients.data.length !== 0) {
+          this.clientHandler(this.props.clients.data[0]);
+        }
+        this.setState({
+          clients: this.props.clients.data,
+        });
       }
-      this.setState({
-        clients: this.props.clients,
-      });
+    } else {
+      //todo:
     }
     if (prevState.clientCode !== this.state.clientCode) {
       console.log(this.state.clientCode);

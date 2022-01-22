@@ -170,14 +170,18 @@ class OrderList extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.clients !== this.props.clients) {
-      if (this.props.clients.length !== 0) {
-        this.clientHandler("ALL");
-        this.clientHandlerIosRequest("ALL");
+    if (this.props.clients.status === 200) {
+      if (prevProps.clients.data !== this.props.clients.data) {
+        if (this.props.clients.data.length !== 0) {
+          this.clientHandler("ALL");
+          this.clientHandlerIosRequest("ALL");
+        }
+        this.setState({
+          clients: [...[{ clientCode: "ALL" }], ...this.props.clients.data],
+        });
       }
-      this.setState({
-        clients: [...[{ clientCode: "ALL" }], ...this.props.clients],
-      });
+    } else {
+      //todo: error needs to be show iin UI
     }
     if (
       prevState.clientCode !== this.state.clientCode ||

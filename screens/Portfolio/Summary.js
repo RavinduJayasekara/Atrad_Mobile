@@ -119,74 +119,81 @@ class Summary extends Component {
   };
 
   clientHandler = async (item, broker) => {
-    // this._isMounted = true;
-    // const clientUrl = uRLencode(item.clientCode);
-    // const body = `action=getPortfolio&format=json&exchange=CSE&broker=${broker}&portfolioClientAccount=${clientUrl}+(${item.initials}+${item.lastName})&portfolioAsset=EQUITY`;
-    // const headers = {
-    //   Accept: "*/*",
-    //   "Content-Type": "application/x-www-form-urlencoded",
-    // };
-    // const response = await requestBody(
-    //   "POST",
-    //   this.props.route.params.brokerUrl,
-    //   "client",
-    //   body,
-    //   headers
-    // );
-    // if (this._isMounted) {
-    //   let totQuantity = 0;
-    //   let clientInfoArr = [];
-    //   let totalC = 0;
-    //   let marketV = 0;
-    //   let salesC = 0;
-    //   let salesP = 0;
-    //   let totalG = 0;
-    //   let totalGT = 0;
-    //   if (response.status) {
-    //     if (response.data.data.portfolios) {
-    //       clientInfoArr = response.data.data.portfolios;
-    //       if (response.data.data.quantityTot) {
-    //         totQuantity = parseFloat(response.data.data.quantityTot[0]);
-    //       }
-    //       clientInfoArr.map((item) => {
-    //         totalC = totalC + parseFloat(item.totCost);
-    //         marketV = marketV + parseFloat(item.marketValue);
-    //         salesC = salesC + parseFloat(item.commission);
-    //         salesP = salesP + parseFloat(item.salesproceeds);
-    //         totalG = totalG + parseFloat(item.netGain);
-    //         tGT = parseFloat(item.netGain) * parseFloat(item.quantity);
-    //         totalGT = totalGT + tGT;
-    //       });
-    //     }
-    //     this.props.storeClients(clientInfoArr, totQuantity);
-    //     this.setState({
-    //       client: item,
-    //       clientName: item.clientCode,
-    //       totalCost: addCommas(totalC.toFixed(2)),
-    //       marketValue: addCommas(marketV.toFixed(2)),
-    //       salesCommision: addCommas(salesC.toFixed(2)),
-    //       salesProceeds: addCommas(salesP.toFixed(2)),
-    //       unrealizedGL: addCommas(totalG.toFixed(2)),
-    //       unrealizedGLT: addCommas(totalGT.toFixed(2)),
-    //     });
-    //   }
-    // } else {
-    //   //todo:
-    // }
+    this._isMounted = true;
+    const clientUrl = uRLencode(item.clientCode);
+    const body = `action=getPortfolio&format=json&exchange=CSE&broker=${broker}&portfolioClientAccount=${clientUrl}+(${item.initials}+${item.lastName})&portfolioAsset=EQUITY`;
+    const headers = {
+      Accept: "*/*",
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
+    const response = await requestBody(
+      "POST",
+      this.props.route.params.brokerUrl,
+      "client",
+      body,
+      headers
+    );
+    if (this._isMounted) {
+      let totQuantity = 0;
+      let clientInfoArr = [];
+      let totalC = 0;
+      let marketV = 0;
+      let salesC = 0;
+      let salesP = 0;
+      let totalG = 0;
+      let totalGT = 0;
+      if (response.status === 200) {
+        if (response.data.data.portfolios) {
+          clientInfoArr = response.data.data.portfolios;
+          if (response.data.data.quantityTot) {
+            totQuantity = parseFloat(response.data.data.quantityTot[0]);
+          }
+          clientInfoArr.map((item) => {
+            totalC = totalC + parseFloat(item.totCost);
+            marketV = marketV + parseFloat(item.marketValue);
+            salesC = salesC + parseFloat(item.commission);
+            salesP = salesP + parseFloat(item.salesproceeds);
+            totalG = totalG + parseFloat(item.netGain);
+            tGT = parseFloat(item.netGain) * parseFloat(item.quantity);
+            totalGT = totalGT + tGT;
+          });
+        }
+        this.props.storeClients(clientInfoArr, totQuantity);
+        this.setState({
+          client: item,
+          clientName: item.clientCode,
+          totalCost: addCommas(totalC.toFixed(2)),
+          marketValue: addCommas(marketV.toFixed(2)),
+          salesCommision: addCommas(salesC.toFixed(2)),
+          salesProceeds: addCommas(salesP.toFixed(2)),
+          unrealizedGL: addCommas(totalG.toFixed(2)),
+          unrealizedGLT: addCommas(totalGT.toFixed(2)),
+        });
+      }
+    } else {
+      //todo:
+    }
   };
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.clients !== this.props.clients ||
-      prevProps.brokers !== this.props.brokers
+      this.props.clients.status === 200 &&
+      this.props.brokers.status === 200
     ) {
-      if (this.props.clients.length !== 0) {
-        this.clientHandler(this.props.clients[0], this.props.brokers[0]);
-        this.setState({
-          clients: this.props.clients,
-          brokers: this.props.brokers,
-        });
+      if (
+        prevProps.clients !== this.props.clients ||
+        prevProps.brokers !== this.props.brokers
+      ) {
+        if (this.props.clients.length !== 0) {
+          this.clientHandler(this.props.clients[0], this.props.brokers[0]);
+          this.setState({
+            clients: this.props.clients,
+            brokers: this.props.brokers,
+          });
+        }
       }
+    } else {
+      // todo: nadiya to create the screen for error
     }
   }
 
