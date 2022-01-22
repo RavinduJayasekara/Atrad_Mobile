@@ -23,28 +23,41 @@ class MarketDepth extends Component {
     newAsk: [],
     newBid: [],
     companyName: this.props.route.params.companyname,
-    neworderBook1: {},
+    orderBookInfo: {},
   };
 
   componentDidUpdate(prevProps) {
     //gets orderbook and orderbook as the same variable
-    if (prevProps.orderBook !== this.props.orderBook) {
-      //checks if it is order book or order book size
-      if (this.props.orderBook === "0") {
+    if (this.props.orderBook.status === 200) {
+      if (prevProps.orderBook.data !== this.props.orderBook.data) {
+        if (this.props.orderBook.data.size[0].size !== "0") {
+          let totalAsk = addCommas(
+            this.props.orderBook.data.orderbook[0].totalask
+          );
+          let totalBid = addCommas(
+            this.props.orderBook.data.orderbook[0].totalbids
+          );
+          this.setState({
+            newTotalAsk: totalAsk,
+            newTotalBid: totalBid,
+            newAsk: this.props.orderBook.data.orderbook[0].ask,
+            newBid: this.props.orderBook.data.orderbook[0].bid,
+          });
+        } else {
+          //no order book
+        }
+      }
+    } else {
+    }
+
+    if (this.props.orderBookInfo.status === 200) {
+      if (prevProps.orderBookInfo.data !== this.props.orderBookInfo.data) {
         this.setState({
-          neworderBook1: this.props.orderBook1,
-        });
-      } else {
-        let totalAsk = addCommas(this.props.orderBook[0].totalask);
-        let totalBid = addCommas(this.props.orderBook[0].totalbids);
-        this.setState({
-          newTotalAsk: totalAsk,
-          newTotalBid: totalBid,
-          newAsk: this.props.orderBook[0].ask,
-          newBid: this.props.orderBook[0].bid,
-          neworderBook1: this.props.orderBook1,
+          orderBookInfo: this.props.orderBookInfo.data,
         });
       }
+    } else {
+      //todo: error UI
     }
   }
 
@@ -250,7 +263,7 @@ class MarketDepth extends Component {
                         numberOfLines={1}
                         style={{ fontSize: 14, fontFamily: "iT-B" }}
                       >
-                        {this.state.neworderBook1.highpx}
+                        {this.state.orderBookInfo.highpx}
                       </Text>
                     </View>
                   </View>
@@ -269,7 +282,7 @@ class MarketDepth extends Component {
                         numberOfLines={1}
                         style={{ fontSize: 14, fontFamily: "iT-B" }}
                       >
-                        {this.state.neworderBook1.lowpx}
+                        {this.state.orderBookInfo.lowpx}
                       </Text>
                     </View>
                   </View>
@@ -312,7 +325,7 @@ class MarketDepth extends Component {
                         }}
                         numberOfLines={1}
                       >
-                        {this.state.neworderBook1.totturnover}
+                        {this.state.orderBookInfo.totturnover}
                       </Text>
                     </View>
                   </View>
@@ -348,7 +361,7 @@ class MarketDepth extends Component {
                         }}
                         numberOfLines={1}
                       >
-                        {this.state.neworderBook1.totvolume}
+                        {this.state.orderBookInfo.totvolume}
                       </Text>
                     </View>
                   </View>
@@ -526,7 +539,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   orderBook: state.quote.orderBook,
-  orderBook1: state.quote.orderBook1,
+  orderBookInfo: state.quote.orderBookInfo,
 });
 
 const mapDispatchToProps = {

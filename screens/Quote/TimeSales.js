@@ -9,10 +9,14 @@ class TimeSales extends Component {
   state = { security: this.props.route.params.security, timeSales: {} };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.timeSales !== this.props.timeSales) {
-      this.setState({
-        timeSales: this.props.timeSales,
-      });
+    if (this.props.timeSales.status === 200) {
+      if (prevProps.timeSales.data !== this.props.timeSales.data) {
+        this.setState({
+          timeSales: this.props.timeSales.data,
+        });
+      }
+    } else {
+      //todo: error UI
     }
   }
 

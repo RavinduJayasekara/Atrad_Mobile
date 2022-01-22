@@ -28,20 +28,41 @@ class Quote extends Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.statistics !== this.props.statistics) {
-      this.setState({
-        newStatistics: this.props.statistics,
-      });
+    if (this.props.statistics.status === 200) {
+      if (prevProps.statistics.data !== this.props.statistics.data) {
+        this.setState({
+          newStatistics: this.props.statistics.data,
+        });
+      }
+    } else {
+      //todo: error UI
     }
-    if (prevProps.announcements !== this.props.announcements) {
-      this.setState({
-        newAnnouncement: this.props.announcements,
-      });
+
+    if (this.props.announcements.status === 200) {
+      if (prevProps.announcements.data !== this.props.announcements.data) {
+        if (this.props.announcements.data.size[0].size !== "0") {
+          this.setState({
+            newAnnouncement: this.props.announcements.data.announcement,
+          });
+        } else {
+          //no announcements particular to this security
+        }
+      }
+    } else {
+      //todo: error UI
     }
-    if (prevProps.statisticsWatchSecurity !== this.props.statisticsWatchSecurity) {
-      this.setState({
-        newStatistics1: this.props.statistics1,
-      });
+
+    if (this.props.statisticsWatchSecurity.status === 200) {
+      if (
+        prevProps.statisticsWatchSecurity.data !==
+        this.props.statisticsWatchSecurity.data
+      ) {
+        this.setState({
+          newStatistics1: this.props.statisticsWatchSecurity.data,
+        });
+      }
+    } else {
+      //todo: error UI
     }
   }
 
@@ -468,7 +489,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   statistics: state.quote.statistics,
-  statistics1: state.quote.statisticsWatchSecurity,
+  statisticsWatchSecurity: state.quote.statisticsWatchSecurity,
   announcements: state.quote.announcements,
 });
 

@@ -12,7 +12,7 @@ const initialState = {
   //bid and ask array
   orderBook: {},
   //orderbook information
-  orderBook1: {},
+  orderBookInfo: {},
   timeSales: {},
 };
 
@@ -121,7 +121,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         orderBook: action.orderBook,
-        orderBook1: action.orderBook1,
+        orderBookInfo: action.orderBookInfo,
       };
     case GET_TIME_SALES:
       return {
