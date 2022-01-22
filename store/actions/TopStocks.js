@@ -15,18 +15,10 @@ export const fetchGainers = (link) => {
         "",
         {}
       );
-
-      if (response.status === 200) {
-        dispatch({
-          type: GET_GAINERS,
-          gainers: response.data.data.watch,
-        });
-      } else {
-        dispatch({
-          type: GET_GAINERS,
-          gainers: [],
-        });
-      }
+      dispatch({
+        type: GET_GAINERS,
+        gainers: { status: response.status, data: response.data.data.watch },
+      });
     } catch (e) {
       throw e;
     }
@@ -43,17 +35,10 @@ export const fetchLosers = (link) => {
         "",
         {}
       );
-      if (response.status === 200) {
-        dispatch({
-          type: GET_LOSERS,
-          losers: response.data.data.watch,
-        });
-      } else {
-        dispatch({
-          type: GET_LOSERS,
-          losers: [],
-        });
-      }
+      dispatch({
+        type: GET_LOSERS,
+        losers: { status: response.status, data: response.data.data.watch },
+      });
     } catch (error) {
       throw error;
     }
@@ -70,17 +55,10 @@ export const fetchTurnover = (link) => {
         "",
         {}
       );
-      if (response.status === 200) {
-        dispatch({
-          type: GET_TURNOVER,
-          turnover: response.data.data.watch,
-        });
-      } else {
-        dispatch({
-          type: GET_TURNOVER,
-          turnover: [],
-        });
-      }
+      dispatch({
+        type: GET_TURNOVER,
+        turnover: { status: response.status, data: response.data.data.watch },
+      });
     } catch (error) {
       throw error;
     }
@@ -97,17 +75,15 @@ export const fetchVolume = (link) => {
         "",
         {}
       );
-      if (response.status === 200) {
-        dispatch({
-          type: GET_SHAREVOLUME,
-          sharevolume: response.data.data.watch,
-        });
-      } else {
-        dispatch({
-          type: GET_SHAREVOLUME,
-          sharevolume: [],
-        });
-      }
-    } catch (error) {}
+      dispatch({
+        type: GET_SHAREVOLUME,
+        sharevolume: {
+          status: response.status,
+          data: response.data.data.watch,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   };
 };

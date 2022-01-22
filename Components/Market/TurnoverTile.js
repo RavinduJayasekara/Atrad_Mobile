@@ -6,16 +6,16 @@ export default class TurnoverTile extends PureComponent {
   render() {
     let turnOver = this.props.item.totturnover;
     let volume = this.props.item.totvolume;
-    if (turnOver.length > 11) {
-      const arr = turnOver.split(",");
-      arr.splice(arr.length - 2, 2);
-      turnOver = arr.toString() + "M";
-    }
-    if (volume.length > 8) {
-      const arr = volume.split(",");
-      arr.splice(arr.length - 2, 2);
-      volume = arr.toString() + "M";
-    }
+    // if (turnOver.length > 11) {
+    //   const arr = turnOver.split(",");
+    //   arr.splice(arr.length - 2, 2);
+    //   turnOver = arr.toString() + "M";
+    // }
+    // if (volume.length > 8) {
+    //   const arr = volume.split(",");
+    //   arr.splice(arr.length - 2, 2);
+    //   volume = arr.toString() + "M";
+    // }
 
     return (
       <View

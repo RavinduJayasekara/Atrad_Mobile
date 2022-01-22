@@ -15,33 +15,14 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_GAINERS:
-      const gainers = action.gainers;
-      if (gainers.length !== 0) {
-        return { ...state, gainers: gainers };
-      } else {
-        return state;
-      }
+      return { ...state, gainers: action.gainers };
     case GET_LOSERS:
-      const losers = action.losers;
-      if (losers.length !== 0) {
-        return { ...state, losers: losers };
-      } else {
-        return state;
-      }
+      return { ...state, losers: action.losers };
     case GET_TURNOVER:
-      const turnover = action.turnover;
-      if (turnover.length !== 0) {
-        return { ...state, turnover: turnover };
-      } else {
-        return state;
-      }
+      return { ...state, turnover: action.turnover };
     case GET_SHAREVOLUME:
-      const sharevolume = action.gainers;
-      if (sharevolume.length !== 0) {
-        return { ...state, shareVolume: sharevolume };
-      } else {
-        return state;
-      }
+      return { ...state, shareVolume: action.sharevolume };
+
     default:
       return state;
   }

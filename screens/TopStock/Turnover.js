@@ -168,14 +168,20 @@ class Turnover extends Component {
     </View>
   );
 
-  async componentDidMount() {
+  componentDidMount() {
     // await this.props.fetchTurnover(this.props.route.params.props.brokerUrl);
-    await this.props.fetchTurnover(this.props.route.params.brokerUrl);
+    this.props.navigation.addListener("focus", async () => {
+      await this.props.fetchTurnover(this.props.route.params.brokerUrl);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.turnover !== this.props.turnover) {
-      this.setState({ newTurnover: this.props.turnover });
+    if (this.props.turnover.status === 200) {
+      if (prevProps.turnover.data !== this.props.turnover.data) {
+        this.setState({ newTurnover: this.props.turnover.data });
+      }
+    }else{
+      //error UI
     }
   }
 

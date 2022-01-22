@@ -7,16 +7,6 @@ export default class SharevolumeTile extends PureComponent {
     let volume = this.props.item.totvolume;
     let turnOver = this.props.item.totturnover;
 
-    if (turnOver.length > 11) {
-      const arr = turnOver.split(",");
-      arr.splice(arr.length - 2, 2);
-      turnOver = arr.toString() + "M";
-    }
-    if (volume.length > 8) {
-      const arr = volume.split(",");
-      arr.splice(arr.length - 2, 2);
-      volume = arr.toString() + "M";
-    }
     return (
       <View
         style={{ height: height * 0.1, width: "100%", paddingHorizontal: "5%" }}

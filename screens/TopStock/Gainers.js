@@ -169,13 +169,18 @@ class Gainers extends Component {
   );
 
   async componentDidMount() {
-    // await this.props.fetchGainers(this.props.route.params.props.brokerUrl);
-    await this.props.fetchGainers(this.props.route.params.brokerUrl);
+    this.props.navigation.addListener("focus", async () => {
+      await this.props.fetchGainers(this.props.route.params.brokerUrl);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.gainers !== this.props.gainers) {
-      this.setState({ newGainers: this.props.gainers });
+    if (this.props.gainers.status === 200) {
+      if (prevProps.gainers.data !== this.props.gainers.data) {
+        this.setState({ newGainers: this.props.gainers.data });
+      }
+    } else {
+      // to do: error UI
     }
   }
 

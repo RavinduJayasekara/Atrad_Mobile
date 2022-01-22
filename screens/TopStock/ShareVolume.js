@@ -168,12 +168,18 @@ class Sharevolume extends Component {
 
   async componentDidMount() {
     // await this.props.fetchVolume(this.props.route.params.props.brokerUrl);
-    await this.props.fetchVolume(this.props.route.params.brokerUrl);
+    this.props.navigation.addListener("focus", async () => {
+      await this.props.fetchVolume(this.props.route.params.brokerUrl);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.sharevolume !== this.props.sharevolume) {
-      this.setState({ newSharevolume: this.props.sharevolume });
+    if (this.props.sharevolume.status === 200) {
+      if (prevProps.sharevolume.data !== this.props.sharevolume.data) {
+        this.setState({ newSharevolume: this.props.sharevolume.data });
+      }
+    } else {
+      //error UI
     }
   }
 

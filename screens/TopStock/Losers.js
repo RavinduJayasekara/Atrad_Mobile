@@ -168,15 +168,17 @@ class Losers extends Component {
     </View>
   );
 
-  async componentDidMount() {
-    await this.props.fetchLosers(this.props.route.params.brokerUrl);
-    // await this.props.fetchLosers(this.props.route.params.props.brokerUrl);
+  componentDidMount() {
+    this.props.navigation.addListener("focus", async () => {
+      await this.props.fetchLosers(this.props.route.params.brokerUrl);
+    });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.losers !== this.props.losers) {
-      this.setState({ newLosers: this.props.losers });
-      // console.log(this.props.losers);
+    if (this.props.losers.status === 200) {
+      if (prevProps.losers.data !== this.props.losers.data) {
+        this.setState({ newLosers: this.props.losers.data });
+      }
     }
   }
 
