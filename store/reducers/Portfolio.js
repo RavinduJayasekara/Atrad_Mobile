@@ -16,7 +16,7 @@ export default (state = initialState, action) => {
       // } else {
       //   return state;
       // }
-      return { ...state, clients: clients, brokers: brokers };
+      return { ...state, clients: action.clients, brokers: action.brokers };
     case STORE_CLIENTS:
       return { ...state, clientInfo: action.clientInfo, totQty: action.totQty };
     default:
