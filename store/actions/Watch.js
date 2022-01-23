@@ -9,7 +9,7 @@ export const fetchSecurities = (link, fWacthId, watchListType) => {
   return async (dispatch) => {
     try {
       let object;
-//full watch with bill bond equity and crossings
+      //full watch with bill bond equity and crossings
       if (watchListType === "Bill") {
         object = await requestBody(
           "GET",
@@ -44,27 +44,23 @@ export const fetchSecurities = (link, fWacthId, watchListType) => {
         );
       }
 
-      if (object.status === 200) {
-        let allSecs = [];
-        if (object.data.data === "User is not authorized") {
-          Alert.alert("User is not authorized", "", [
-            {
-              text: "Okay!",
-              onPress: () => dispatch(authActions.signOut()),
-            },
-          ]);
-        } else {
-          if (object.data.data.size[0].size > 0) {
-            allSecs = object.data.data.watch;
-          }
-          dispatch({
-            type: FETCH_SECURITIES,
-            allSecurities: allSecs,
-            watchType: watchListType,
-          });
-        }
+      let allSecs = [];
+      if (object.data.data === "User is not authorized") {
+        Alert.alert(object.data.data, "", [
+          {
+            text: "Okay!",
+            onPress: () => dispatch(authActions.signOut()),
+          },
+        ]);
       } else {
-        //todo:
+        if (object.data.data.size[0].size > 0) {
+          allSecs = object.data.data.watch;
+        }
+        dispatch({
+          type: FETCH_SECURITIES,
+          allSecurities: allSecs,
+          watchType: watchListType,
+        });
       }
     } catch (e) {
       throw e;

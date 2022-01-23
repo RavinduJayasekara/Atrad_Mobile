@@ -95,10 +95,7 @@ class MainHeader extends Component {
       .then((result) => {
         clearInterval(this.state.intervalIdS);
         if (this._isMounted) {
-          if (result.status === 200) {
-            const timeDifference =
-              new Date().getTime() - result[0].data.jbossTime;
-            const currentTime = new Date().getTime() - timeDifference;
+          if (result[1].status === 200 && result[2].status === 200) {
             if (
               result[1].data.size[0].size !== "0" ||
               result[2].data.size[0].size !== "0"
@@ -124,6 +121,15 @@ class MainHeader extends Component {
                 cseBrokerAnnouncements: "*    " + announcementString,
               });
             }
+          } else {
+            //todo: check network errors later
+          }
+
+          if (result[0].status === 200) {
+            const timeDifference =
+              new Date().getTime() - result[0].data.jbossTime;
+            const currentTime = new Date().getTime() - timeDifference;
+
             this.setTime(currentTime);
             this.setState({ requestTime: timeDifference });
           } else {
